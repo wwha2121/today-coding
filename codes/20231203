@@ -1,2 +1,35 @@
 리트코드 
-125ㅍ펜린드롬 문제는 어떻게 풀어야ㅣ지?  two pointer말고는 또 있는데 
+125ㅍ펜린드롬 문제는 어떻게 풀어야ㅣ지?  two pointer말고는 또 있는데
+
+
+
+import java.util.Stack; //import
+
+class Solution {
+    public boolean isPalindrome(String s) {
+   
+
+    Stack<String> stack = new Stack<>();
+
+    for(int i = 0 ; i <s.length() ; i++) {
+            
+        if(s.length()%2 == 1) // odd
+          
+          12
+
+          3 
+
+          45
+
+        }
+        else { // 짝수 
+          12
+
+          34
+
+
+        }
+
+}
+//핵심아이디어 : 12345 1234 12까지는 스택에 넣고 34 45는 스택이랑 맞추면서 검증한다. 
+//이프문안에 반복문을 쓰는 게 깔끔할까 반복문 안에 이프문을 넣을까?
