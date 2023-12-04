@@ -1,0 +1,72 @@
+
+import java.util.Stack; //import
+
+class Solution {
+    public boolean isPalindrome(String s) {
+      
+
+      String charsToRemove = ",_!";
+      for (char c : charsToRemove.toCharArray()) {
+              s = s.replace(String.valueOf(c), "");
+          }
+
+      s = s.replaceAll("[^\\w+]", "");
+      s = s.toUpperCase(); 
+      
+      // s = s.replaceAll("\\s", "");
+      // String charsToRemove = ",_!";
+      // for (char c : charsToRemove.toCharArray()) {
+      //       s = s.replace(String.valueOf(c), "");
+      //   }
+      if(s.length() == 0){
+        return true;
+      }
+
+      Stack<Character> stack = new Stack<Character>();
+
+      for(int i = 0 ; i <s.length() ; i++) {
+              
+        if(s.length()%2 == 1){ // odd
+          
+          if(i <= s.length()/2-1) {
+            stack.add(s.charAt(i));//12345
+          }
+    
+          else if(i == s.length()/2){
+
+          }
+          else {
+            
+            if(stack.peek() != s.charAt(i)){
+              return false ;
+            }
+            stack.pop(); 
+          }
+          
+        }
+
+        else { 
+          
+          if(i <= s.length()/2-1) {
+            stack.add(s.charAt(i));//12345
+          }
+                
+          else {
+            
+            if(stack.peek()!=s.charAt(i)){
+              return false;
+            }
+
+            stack.pop(); 
+          }
+
+          // 짝수 
+
+
+        }
+      }
+
+      return true;
+    }
+
+// stack making code leetcode 125
