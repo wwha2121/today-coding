@@ -1,0 +1,72 @@
+from plyer import notification
+from datetime import datetime, timedelta
+import time
+import threading
+import tkinter as tk
+from tkinter import ttk
+
+class TimerApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("30분 알람 앱")
+
+        self.remaining_time_label = ttk.Label(root, text="남은 시간: -")
+        self.remaining_time_label.grid(row=0, column=0, pady=10)
+
+        self.start_button = ttk.Button(root, text="시작", command=self.start_timer)
+        self.start_button.grid(row=1, column=0, pady=10)
+
+        self.stop_button = ttk.Button(root, text="중지", command=self.stop_timer, state=tk.DISABLED)
+        self.stop_button.grid(row=2, column=0, pady=10)
+
+        self.is_running = False
+        self.timer_thread = None
+
+    def show_notification(self, title, message):
+        notification.notify(
+            title=title,
+            message=message,
+            app_name="30분 알람",
+            timeout=10
+        )
+
+    def update_remaining_time_label(self, remaining_time):
+        self.remaining_time_label.config(text=f"남은 시간: {remaining_time}")
+
+    def timer_function(self):
+        while self.is_running:
+            now = datetime.now()
+            next_alarm_time = now + timedelta(minutes=30)
+            time_to_wait = next_alarm_time - now
+            self.update_remaining_time_label(str(time_to_wait).split(".")[0])
+
+            # 1초씩 감소
+            time.sleep(1)
+            remaining_time = time_to_wait - timedelta(seconds=1)
+
+            if remaining_time.total_seconds() <= 0:
+                break
+
+        self.update_remaining_time_label("시간 종료")
+
+    def start_timer(self):
+        self.is_running = True
+        self.timer_thread = threading.Thread(target=self.timer_function)
+        self.timer_thread.start()
+
+        self.start_button['state'] = tk.DISABLED
+        self.stop_button['state'] = tk.NORMAL
+
+    def stop_timer(self):
+        self.is_running = False
+        self.timer_thread.join()
+
+        self.start_button['state'] = tk.NORMAL
+        self.stop_button['state'] = tk.DISABLED
+        self.update_remaining_time_label("남은 시간: -")
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = TimerApp(root)
+    root.mainloop()
+
