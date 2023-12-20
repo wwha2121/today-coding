@@ -1,0 +1,30 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class aaaa {
+    public static void main(String[] args) {
+        // Press Opt+Enter with your caret at the highlighted text to see how
+        // IntelliJ IDEA suggests fixing it.
+        String[] logs;
+        logs = new String[]{"dig1 8 1 5 1", "let1 art can", "dig2 3 6", "let2 own kit dig", "let3 art zero"};
+
+        for (int i = 0; i < logs.length; i++) {
+
+            List<String> arrayList = new ArrayList<String>();
+            arrayList = List.of(logs[i].split(" "));
+
+            System.out.println(arrayList);
+            int sum = 0;
+
+            for (int j = 1; j < arrayList.size(); j++) {
+                sum += Integer.parseInt(arrayList.get(j));
+            }
+
+            arrayList.add(String.valueOf(sum));
+
+            System.out.println(arrayList);
+
+        }
+
+    }
+}
