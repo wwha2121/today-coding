@@ -1,0 +1,97 @@
+
+import numpy as np
+from pandas import DataFrame
+from pykrx import stock
+import pandas as pd
+import yfinance as yf
+
+
+pd.set_option('display.max_columns', None)
+
+# Press the green button in the gutter to run the script.
+df = pd.DataFrame(stock.get_market_ohlcv("20220120", "20221110", "069500"))
+# print(df)
+# print(df.head(0)['종가'])
+# print(df.head(1)['종가'])
+# print("ddasdas")
+sum = 0
+arrayIndex = 0
+tenMa = [0,0,0,0,0,0,0,0,0,0]
+#
+# for i in df['종가']:
+#     print(i)
+#     print(type(i))
+#
+print("날짜")
+for i in df.index:
+    print(i)
+
+for i in df['종가']:
+    sum += i
+    if arrayIndex > 9 :
+         #
+         # print("지금 숫자",end = " ")
+         # print(i)
+
+         sum -= df['종가'][arrayIndex-10]
+
+         # print("10번쨰이전수",end = " ")
+         # print(df['종가'][arrayIndex-10])
+         #
+         # print(sum)
+         tenMa.append(sum/10)
+
+    arrayIndex += 1
+
+a = df.index.to_numpy()
+b = df['종가'].to_numpy()
+dfReturn = DataFrame(a,b)
+print("chekck!!")
+print(dfReturn)
+
+a = df.index
+print(a)
+b = df['종가']
+
+print(a)
+print(b)
+b = pd.Series(b)
+tenMa = pd.Series(tenMa)
+c = pd.concat({'index':a, '종가':b})
+print("중간결과")
+print(c)
+c = pd.concat(c,{ '10일':c})
+print("결과 나왔어요")
+c.head()
+
+
+
+##
+
+# print(sum)
+#
+#
+# print(df['종가'])
+# print(tenMa)
+
+def calculate_differential_coefficient(stock_prices):
+    # Use NumPy's gradient function to calculate the differential coefficient
+    diff_coefficient = np.gradient(stock_prices)
+    return diff_coefficient
+
+# Example usage
+diff_coefficient = calculate_differential_coefficient(tenMa)
+
+print(diff_coefficient)
+
+#
+# def get_stock_data(symbol, start_date, end_date):
+#     stock_data = yf.download(symbol, start=start_date, end=end_date)
+#     return stock_data['Adj Close']
+#
+# # Example usage
+# symbol = 'AAPL'
+# start_date = '2022-01-01'
+# end_date = '2023-01-01'
+# stock_prices = get_stock_data(symbol, start_date, end_date)
+# print(stock_prices)
